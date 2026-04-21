@@ -1,0 +1,17 @@
+<div *ngFor="let r of result.details; let i = index">
+
+  <h4>Q{{i+1}}: {{ r.question }}</h4>
+
+  <p><b>Your Answer:</b> {{ r.userAnswer || 'Not Answered' }}</p>
+
+  <p><b>Correct Answer:</b> {{ r.correctAnswer }}</p>
+
+  <p [style.color]="r.isCorrect ? 'green' : 'red'">
+    {{ r.isCorrect ? '✔ Correct' : '✘ Wrong' }}
+  </p>
+
+  <hr>
+
+</div>
+
+<button (click)="retake()">Take Another Test</button>

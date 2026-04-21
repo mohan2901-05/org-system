@@ -1,0 +1,52 @@
+/* Container */
+.container {
+  padding: 20px;
+}
+
+/* Title */
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* Grid layout */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+/* Class card */
+.class-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Hover effect */
+.class-card:hover {
+  background: #4CAF50;
+  color: white;
+  transform: translateY(-3px);
+}
+
+.back-btn {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.back-btn:hover {
+  background: #45a049;
+}

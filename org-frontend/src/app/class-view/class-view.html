@@ -1,0 +1,13 @@
+<button class="back-btn" (click)="goBack()">⬅ Back</button>
+<div class="container">
+
+
+  <h2 class="title">Select Class</h2>
+
+  <div class="card-grid">
+    <div class="class-card" *ngFor="let c of classes" (click)="selectClass(c)">
+      {{ c.className }}
+    </div>
+  </div>
+
+</div>

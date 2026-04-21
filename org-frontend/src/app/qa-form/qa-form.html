@@ -1,0 +1,33 @@
+<div class="form-container">
+
+  <h2>{{ isEdit ? 'Edit QA' : 'Add QA' }}</h2>
+
+  <div class="form-group">
+    <label>ID</label>
+    <input [(ngModel)]="qa.id" name="id" [readonly]="isEdit">
+  </div>
+
+  <div class="form-group">
+    <label>Chapter</label>
+    <input [(ngModel)]="qa.chapterName" name="chapter">
+  </div>
+
+  <div class="form-group">
+    <label>Question</label>
+    <input [(ngModel)]="qa.question" name="question">
+  </div>
+
+  <div class="form-group">
+    <label>Answer</label>
+    <input [(ngModel)]="qa.answer" name="answer">
+  </div>
+
+  <button (click)="submit()">
+    {{ isEdit ? 'Update QA' : 'Save QA' }}
+  </button>
+
+  <div *ngIf="successMessage" class="success-box">
+    {{ successMessage }}
+  </div>
+
+</div>

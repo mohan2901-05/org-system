@@ -1,0 +1,37 @@
+<div class="form-container">
+
+  <h2>{{ isEdit ? 'Edit Class' : 'Add Class' }}</h2>
+
+  <form (ngSubmit)="submitForm()">
+
+    <div class="form-group">
+      <label>Org ID</label>
+      <input [(ngModel)]="orgData.orgId" name="orgId" required>
+    </div>
+
+    <div class="form-group">
+      <label>Class ID</label>
+      <input 
+        [(ngModel)]="orgData.classId" 
+        name="classId"
+        [readonly]="isEdit"
+        required>
+    </div>
+
+    <div class="form-group">
+      <label>Class Name</label>
+      <input [(ngModel)]="orgData.className" name="className" required>
+    </div>
+
+    <button type="submit">
+      {{ isEdit ? 'Update Class' : 'Save Class' }}
+    </button>
+
+  </form>
+
+  <!-- ✅ SUCCESS MESSAGE -->
+  <div *ngIf="successMessage" class="success-box">
+    {{ successMessage }}
+  </div>
+
+</div>

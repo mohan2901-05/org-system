@@ -1,0 +1,42 @@
+<div class="container">
+  <h2>Select Chapter</h2>
+
+  <!-- 🔥 SHOW CHAPTERS -->
+  <div *ngIf="!showQA">
+
+    <button (click)="goBack()">← Back</button>
+
+    <div class="card-container">
+      <div class="card" *ngFor="let c of chapters" (click)="selectChapter(c)">
+        {{ c.chapterName }}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 🔥 SHOW QA -->
+  <div *ngIf="showQA">
+
+    <button (click)="goBackToChapters()">Back</button>
+
+    <div *ngFor="let q of qaList; let i = index">
+
+      <h4>Q{{i+1}}: {{ q.question }}</h4>
+
+      <div *ngFor="let opt of q.options">
+
+        <label>
+          <input type="radio" name="q{{i}}" [value]="opt" [(ngModel)]="q.userAnswer">
+          {{ opt }}
+        </label>
+
+      </div>
+
+      <hr>
+
+    </div>
+
+    <button (click)="submitExam()">Submit Exam</button>
+
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="container">
+  <h2>Select Subject</h2>
+
+  <button (click)="goBack()">← Back</button>
+
+  <p *ngIf="subjects.length > 0">Count: {{ subjects.length }}</p>
+
+  <div *ngIf="subjects.length === 0">
+    No Subjects Found
+  </div>
+
+  <div class="card-container">
+    <div 
+      class="card"
+      *ngFor="let s of subjects"
+      (click)="selectSubject(s)"
+    >
+      {{ s.subjectName }}
+    </div>
+  </div>
+</div>
