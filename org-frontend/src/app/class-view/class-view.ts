@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
+const CLASS_ICONS = ['📗','📘','📙','📕','📓','📔','📒','📃','📄','📑'];
+
 @Component({
   selector: 'app-class-view',
   standalone: true,
@@ -17,41 +19,33 @@ export class ClassView implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private cd: ChangeDetectorRef   // 🔥 IMPORTANT
-  ) { }
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-
-    const orgId = localStorage.getItem("orgId");
-
-    console.log("ORG ID:", orgId);
-
+    const orgId = localStorage.getItem('orgId');
+    console.log('ORG ID:', orgId);
     if (orgId) {
-      this.http.get<any[]>("http://localhost:8080/class?orgId=" + orgId)
-        .subscribe(data => {
-
-          console.log("API DATA:", data);
-
-          this.classes = data;
-
-          // 🔥 FORCE UI UPDATE
-          this.cd.detectChanges();
-
-          console.log("UPDATED CLASSES:", this.classes);
+      this.http.get<any[]>('http://localhost:8080/class?orgId=' + orgId)
+        .subscribe({
+          next: (data) => {
+            this.classes = data || [];
+            this.cd.detectChanges();
+          },
+          error: (err) => console.error('Error loading classes:', err)
         });
     }
   }
 
+  getIcon(index: number): string {
+    return CLASS_ICONS[index % CLASS_ICONS.length];
+  }
+
   selectClass(c: any) {
-    console.log("CLICKED CLASS:", c);
-
-    // 🔥 FIX (handle all possible field names)
     const classId = c.pkClassId || c.pk_class_id;
-
-    console.log("STORING classId:", classId);
-
-    localStorage.setItem("classId", classId);
-
+    const className = c.className || c.class_name || '';
+    localStorage.setItem('classId', classId);
+    localStorage.setItem('className', className);
     this.router.navigate(['/subject-view']);
   }
 

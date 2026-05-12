@@ -1,18 +1,163 @@
-<div class="layout">
+<div class="app-shell">
 
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <h2>EduFlow</h2>
+  <!-- ═══════════════════════════════════════════════════ NAVBAR -->
+  <header class="navbar">
 
-    <a routerLink="/org-select">Organization</a>
-    <a routerLink="/class-view">Classes</a>
-    <a routerLink="/subject-view">Subjects</a>
-    <a routerLink="/chapter-view">Chapters</a>
-  </div>
+    <!-- Hamburger -->
+    <button class="hamburger-btn" (click)="toggleSidebar()" [class.active]="sidebarOpen"
+            title="Toggle menu" id="hamburger-btn">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
 
-  <!-- CONTENT -->
-  <div class="content">
+    <!-- Brand -->
+    <div class="navbar-brand" (click)="navigate('/org-select')">
+      <svg class="brand-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <path d="M4.26 10.147a60.437 60.437 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>
+      </svg>
+      <span class="brand-name">EduFlow</span>
+    </div>
+
+    <div class="navbar-spacer"></div>
+
+    <!-- Org pill -->
+    <div class="org-pill" *ngIf="orgName">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="pill-svg">
+        <path d="M3 21h18M3 7l9-4 9 4M4 7v14M20 7v14M9 21V11h6v10"/>
+      </svg>
+      {{ orgName }}
+    </div>
+
+    <!-- Avatar -->
+    <div class="avatar-wrap">
+      <button class="avatar-btn" (click)="toggleProfile(); $event.stopPropagation()" id="profile-btn">
+        <img *ngIf="auth.userPicture" [src]="auth.userPicture" class="avatar-img" alt="avatar"/>
+        <span *ngIf="!auth.userPicture" class="avatar-fallback">
+          {{ (auth.userName || auth.userEmail || 'U').charAt(0).toUpperCase() }}
+        </span>
+      </button>
+
+      <!-- Profile dropdown -->
+      <div class="profile-menu" [class.open]="profileOpen" (click)="$event.stopPropagation()">
+        <div class="profile-header">
+          <img *ngIf="auth.userPicture" [src]="auth.userPicture" class="pm-avatar" alt="avatar"/>
+          <span *ngIf="!auth.userPicture" class="pm-avatar-fallback">
+            {{ (auth.userName || 'U').charAt(0).toUpperCase() }}
+          </span>
+          <div class="pm-info">
+            <span class="pm-name">{{ auth.userName || 'User' }}</span>
+            <span class="pm-email">{{ auth.userEmail }}</span>
+          </div>
+        </div>
+        <div class="pm-divider"></div>
+        <button class="pm-item" (click)="navigate('/my-results')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="pm-svg">
+            <path d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/>
+          </svg>
+          My Results
+        </button>
+        <button class="pm-item" (click)="navigate('/org-select')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="pm-svg">
+            <path d="M3 21h18M3 7l9-4 9 4M4 7v14M20 7v14M9 21V11h6v10"/>
+          </svg>
+          Organizations
+        </button>
+        <div class="pm-divider"></div>
+        <button class="pm-item pm-logout" (click)="logout()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="pm-svg">
+            <path d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"/>
+          </svg>
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Overlay -->
+  <div class="sidebar-overlay" [class.visible]="sidebarOpen" (click)="closeSidebar()"></div>
+
+  <!-- ═══════════════════════════════════════════════════ SIDEBAR -->
+  <aside class="sidebar" [class.open]="sidebarOpen">
+
+    <div class="sidebar-top">
+      <div class="sidebar-brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" class="sb-brand-svg">
+          <path d="M4.26 10.147a60.437 60.437 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>
+        </svg>
+        EduFlow
+      </div>
+      <button class="sidebar-close" (click)="closeSidebar()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+          <path d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- User info -->
+    <div class="user-pill" *ngIf="auth.userEmail">
+      <img *ngIf="auth.userPicture" [src]="auth.userPicture" class="s-avatar" alt="avatar"/>
+      <span *ngIf="!auth.userPicture" class="s-avatar-fb">
+        {{ (auth.userName || 'U').charAt(0).toUpperCase() }}
+      </span>
+      <div class="user-detail">
+        <span class="u-name">{{ auth.userName }}</span>
+        <span class="u-email">{{ auth.userEmail }}</span>
+      </div>
+    </div>
+
+    <!-- Org badge -->
+    <div class="org-badge" *ngIf="orgName">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13">
+        <path d="M3 21h18M3 7l9-4 9 4M4 7v14M20 7v14M9 21V11h6v10"/>
+      </svg>
+      {{ orgName }}
+    </div>
+
+    <nav class="nav">
+      <a class="nav-item" routerLink="/org-select" routerLinkActive="active" (click)="closeSidebar()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="nav-svg">
+          <path d="M3 21h18M3 7l9-4 9 4M4 7v14M20 7v14M9 21V11h6v10"/>
+        </svg>
+        Organization
+      </a>
+      <a class="nav-item" routerLink="/class-view" routerLinkActive="active" (click)="closeSidebar()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="nav-svg">
+          <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+        </svg>
+        Classes
+      </a>
+      <a class="nav-item" routerLink="/subject-view" routerLinkActive="active" (click)="closeSidebar()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="nav-svg">
+          <path d="M4.26 10.147a60.437 60.437 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342"/>
+        </svg>
+        Subjects
+      </a>
+      <a class="nav-item" routerLink="/chapter-view" routerLinkActive="active" (click)="closeSidebar()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="nav-svg">
+          <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+        Chapters
+      </a>
+      <a class="nav-item" routerLink="/my-results" routerLinkActive="active" (click)="closeSidebar()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="nav-svg">
+          <path d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/>
+        </svg>
+        My Results
+      </a>
+    </nav>
+
+    <button class="logout-btn" (click)="logout()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
+        <path d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"/>
+      </svg>
+      Sign Out
+    </button>
+  </aside>
+
+  <!-- Content -->
+  <main class="content">
     <router-outlet></router-outlet>
-  </div>
+  </main>
 
 </div>

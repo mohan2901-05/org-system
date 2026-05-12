@@ -1,13 +1,36 @@
-<button class="back-btn" (click)="goBack()">⬅ Back</button>
-<div class="container">
-
-
-  <h2 class="title">Select Class</h2>
-
-  <div class="card-grid">
-    <div class="class-card" *ngFor="let c of classes" (click)="selectClass(c)">
-      {{ c.className }}
+<div class="page">
+  <div class="page-header">
+    <button class="back-btn" (click)="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+        <path d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
+      </svg>
+      Back
+    </button>
+    <div>
+      <h1 class="page-title">Select a Class</h1>
+      <p class="page-sub">Choose the class you want to study</p>
     </div>
   </div>
 
+  <div *ngIf="classes.length === 0" class="empty-state">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="empty-svg">
+      <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+    </svg>
+    <p>No classes found for this organization.</p>
+  </div>
+
+  <div class="card-grid" *ngIf="classes.length > 0">
+    <div class="class-card" *ngFor="let c of classes; let i = index"
+         (click)="selectClass(c)" [style.animation-delay]="i * 0.05 + 's'">
+      <div class="card-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="card-svg">
+          <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+        </svg>
+      </div>
+      <div class="card-label">{{ c.className || c.class_name }}</div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-arrow-svg">
+        <path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+      </svg>
+    </div>
+  </div>
 </div>

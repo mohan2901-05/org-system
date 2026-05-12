@@ -1,12 +1,128 @@
-<div class="login-box">
-  <h2>Login</h2>
+<div class="login-bg">
 
-  <input type="text" placeholder="Username" [(ngModel)]="username">
-  <input type="password" placeholder="Password" [(ngModel)]="password">
+  <!-- Floating background blobs -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
 
-  <button (click)="login()">Login</button>
+  <div class="login-card">
 
-  <hr>
+    <!-- Brand -->
+    <div class="brand">
+      <svg class="brand-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <path d="M4.26 10.147a60.437 60.437 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>
+      </svg>
+      <h1 class="brand-name">EduFlow</h1>
+      <p class="brand-sub">Your personalized learning platform</p>
+    </div>
 
-  <button (click)="guestLogin()">Continue as Guest</button>
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn" [class.active]="activeTab === 'signin'"
+              (click)="switchTab('signin')">Sign In</button>
+      <button class="tab-btn" [class.active]="activeTab === 'register'"
+              (click)="switchTab('register')">Create Account</button>
+    </div>
+
+    <!-- ─── SIGN IN TAB ─── -->
+    <div *ngIf="activeTab === 'signin'" class="tab-panel">
+
+      <!-- Google button -->
+      <div class="google-wrap">
+        <div id="google-btn-container"></div>
+      </div>
+
+      <div class="divider"><span>or sign in with email</span></div>
+
+      <!-- Email/password form -->
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" placeholder="you@example.com"
+               [(ngModel)]="siEmail" (keyup.enter)="signIn()" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="input-wrap">
+          <input class="form-input" [type]="siShowPwd ? 'text' : 'password'"
+                 placeholder="••••••••" [(ngModel)]="siPassword" (keyup.enter)="signIn()" />
+          <button class="eye-btn" (click)="siShowPwd = !siShowPwd" type="button">
+            {{ siShowPwd ? '🙈' : '👁' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="error-msg" *ngIf="siError">⚠ {{ siError }}</div>
+
+      <button class="submit-btn" (click)="signIn()" [disabled]="siLoading">
+        <span *ngIf="!siLoading">Sign In →</span>
+        <span *ngIf="siLoading" class="spinner-inline"></span>
+      </button>
+
+      <p class="switch-hint">
+        Don't have an account?
+        <a (click)="switchTab('register')">Create one</a>
+      </p>
+    </div>
+
+    <!-- ─── CREATE ACCOUNT TAB ─── -->
+    <div *ngIf="activeTab === 'register'" class="tab-panel">
+
+      <!-- Google button -->
+      <div class="google-wrap">
+        <div id="google-btn-container"></div>
+      </div>
+
+      <div class="divider"><span>or create with email</span></div>
+
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input class="form-input" type="text" placeholder="Your full name"
+               [(ngModel)]="regName" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" placeholder="you@example.com"
+               [(ngModel)]="regEmail" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="input-wrap">
+          <input class="form-input" [type]="regShowPwd ? 'text' : 'password'"
+                 placeholder="Min 6 characters" [(ngModel)]="regPassword" />
+          <button class="eye-btn" (click)="regShowPwd = !regShowPwd" type="button">
+            {{ regShowPwd ? '🙈' : '👁' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Confirm Password</label>
+        <input class="form-input" type="password" placeholder="Repeat password"
+               [(ngModel)]="regConfirm" (keyup.enter)="register()" />
+      </div>
+
+      <div class="error-msg"   *ngIf="regError">⚠ {{ regError }}</div>
+      <div class="success-msg" *ngIf="regSuccess">✓ {{ regSuccess }}</div>
+
+      <button class="submit-btn" (click)="register()" [disabled]="regLoading">
+        <span *ngIf="!regLoading">Create Account →</span>
+        <span *ngIf="regLoading" class="spinner-inline"></span>
+      </button>
+
+      <p class="switch-hint">
+        Already have an account?
+        <a (click)="switchTab('signin')">Sign in</a>
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <p class="footer-note">
+      By continuing you agree to our
+      <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+    </p>
+
+  </div>
 </div>

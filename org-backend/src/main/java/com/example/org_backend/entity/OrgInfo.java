@@ -1,6 +1,7 @@
 package com.example.org_backend.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "org_info")
@@ -23,7 +24,7 @@ public class OrgInfo {
     private String orgUpdatedBy;
 
     @Column(name = "org_updated_on")
-    private String orgUpdatedOn;
+    private LocalDateTime orgUpdatedOn;
 
     @Column(name = "org_status")
     private String orgStatus;
@@ -45,8 +46,8 @@ public class OrgInfo {
     public String getOrgUpdatedBy() { return orgUpdatedBy; }
     public void setOrgUpdatedBy(String orgUpdatedBy) { this.orgUpdatedBy = orgUpdatedBy; }
 
-    public String getOrgUpdatedOn() { return orgUpdatedOn; }
-    public void setOrgUpdatedOn(String orgUpdatedOn) { this.orgUpdatedOn = orgUpdatedOn; }
+    public java.time.LocalDateTime getOrgUpdatedOn() { return orgUpdatedOn; }
+    public void setOrgUpdatedOn(java.time.LocalDateTime orgUpdatedOn) { this.orgUpdatedOn = orgUpdatedOn; }
 
     public String getOrgStatus() { return orgStatus; }
     public void setOrgStatus(String orgStatus) { this.orgStatus = orgStatus; }

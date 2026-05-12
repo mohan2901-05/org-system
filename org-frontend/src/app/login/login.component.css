@@ -1,7 +1,197 @@
-.login-box {
-  width: 300px;
-  margin: 100px auto;
+/* ── Background ────────────────────────────────────────── */
+.login-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #1a1a2e 100%);
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: flex-start;      /* don't lock to center so page can scroll */
+  justify-content: center;
+  position: relative;
+  overflow-y: auto;             /* allow vertical scroll */
+  overflow-x: hidden;
+  padding: 40px 24px;           /* breathing room top & bottom */
 }
+
+/* Animated background blobs */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.25;
+  animation: blobFloat 8s ease-in-out infinite alternate;
+}
+.blob-1 { width: 500px; height: 500px; background: #6366f1; top: -150px; left: -100px; animation-delay: 0s; }
+.blob-2 { width: 400px; height: 400px; background: #8b5cf6; bottom: -100px; right: -80px; animation-delay: 2s; }
+.blob-3 { width: 300px; height: 300px; background: #06b6d4; top: 40%; left: 60%; animation-delay: 4s; }
+@keyframes blobFloat {
+  from { transform: scale(1) translate(0, 0); }
+  to   { transform: scale(1.15) translate(20px, -20px); }
+}
+
+/* ── Card ──────────────────────────────────────────────── */
+.login-card {
+  position: relative; z-index: 1;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: 36px 40px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+  animation: cardIn 0.5s ease;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Brand ─────────────────────────────────────────────── */
+.brand { text-align: center; margin-bottom: 28px; }
+.brand-logo-svg {
+  width: 52px; height: 52px;
+  display: block; margin: 0 auto 10px;
+  color: #a5b4fc;
+  filter: drop-shadow(0 0 12px rgba(99,102,241,0.4));
+}
+.brand-name { font-size: 1.6rem; font-weight: 800; color: #fff; margin: 0 0 6px; }
+.brand-sub  { font-size: 0.85rem; color: rgba(255,255,255,0.45); margin: 0; }
+
+/* ── Tabs ──────────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  background: rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 24px;
+  gap: 4px;
+}
+.tab-btn {
+  flex: 1;
+  padding: 9px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: rgba(255,255,255,0.45);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.tab-btn.active {
+  background: rgba(99,102,241,0.35);
+  color: #fff;
+  border: 1px solid rgba(99,102,241,0.4);
+}
+.tab-btn:hover:not(.active) { color: rgba(255,255,255,0.75); }
+
+/* ── Tab panel ─────────────────────────────────────────── */
+.tab-panel { animation: fadeSlide 0.25s ease; }
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Google button wrapper ─────────────────────────────── */
+.google-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* ── Divider ───────────────────────────────────────────── */
+.divider {
+  display: flex; align-items: center;
+  gap: 10px; margin-bottom: 20px;
+  color: rgba(255,255,255,0.3); font-size: 0.78rem;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 1px;
+  background: rgba(255,255,255,0.1);
+}
+
+/* ── Form ──────────────────────────────────────────────── */
+.form-group { margin-bottom: 14px; }
+.form-label {
+  display: block; font-size: 0.8rem; font-weight: 600;
+  color: rgba(255,255,255,0.6); margin-bottom: 6px;
+}
+.input-wrap { position: relative; }
+.form-input {
+  width: 100%; padding: 11px 14px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  color: #fff; font-size: 0.9rem;
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+.form-input::placeholder { color: rgba(255,255,255,0.25); }
+.form-input:focus {
+  border-color: rgba(99,102,241,0.7);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+}
+.eye-btn {
+  position: absolute; right: 10px; top: 50%;
+  transform: translateY(-50%);
+  background: none; border: none; cursor: pointer;
+  font-size: 0.9rem; padding: 4px; line-height: 1;
+  color: rgba(255,255,255,0.4);
+}
+.eye-btn:hover { color: rgba(255,255,255,0.7); }
+
+/* ── Messages ──────────────────────────────────────────── */
+.error-msg {
+  background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3);
+  color: #fca5a5; border-radius: 8px; padding: 9px 12px;
+  font-size: 0.82rem; margin-bottom: 14px;
+}
+.success-msg {
+  background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3);
+  color: #6ee7b7; border-radius: 8px; padding: 9px 12px;
+  font-size: 0.82rem; margin-bottom: 14px;
+}
+
+/* ── Submit button ─────────────────────────────────────── */
+.submit-btn {
+  width: 100%; padding: 13px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff; border: none; border-radius: 12px;
+  font-size: 0.95rem; font-weight: 700; cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 46px;
+}
+.submit-btn:hover:not(:disabled) {
+  box-shadow: 0 8px 24px rgba(99,102,241,0.45);
+  transform: translateY(-2px);
+}
+.submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ── Inline spinner ────────────────────────────────────── */
+.spinner-inline {
+  display: inline-block; width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff; border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Switch hint ───────────────────────────────────────── */
+.switch-hint {
+  text-align: center; font-size: 0.8rem;
+  color: rgba(255,255,255,0.4); margin: 0 0 8px;
+}
+.switch-hint a {
+  color: #a5b4fc; cursor: pointer; font-weight: 600;
+  text-decoration: none;
+}
+.switch-hint a:hover { text-decoration: underline; }
+
+/* ── Footer ────────────────────────────────────────────── */
+.footer-note {
+  text-align: center; font-size: 0.72rem;
+  color: rgba(255,255,255,0.25); margin-top: 12px;
+}
+.footer-note a { color: rgba(255,255,255,0.4); text-decoration: none; }
+.footer-note a:hover { text-decoration: underline; }

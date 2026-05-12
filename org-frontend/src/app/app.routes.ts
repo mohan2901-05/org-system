@@ -65,28 +65,32 @@ import { SubjectView } from './subject-view/subject-view';
 import { ChapterView } from './chapter-view/chapter-view';
 import { LoginComponent } from './login/login.component';
 import { ResultComponent } from './result/result.component';
+import { ResultHistoryComponent } from './result-history/result-history.component';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
 
-  // ✅ DEFAULT → LOGIN
+  // Default → Login
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 
-  // ✅ LOGIN OUTSIDE LAYOUT
+  // Login — public
   { path: 'login', component: LoginComponent },
 
-  // ✅ APP WITH SIDEBAR
+  // Protected app pages (require Google login)
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [authGuard],
     children: [
-      { path: 'org-select', component: OrgSelectComponent },
-      { path: 'class-view', component: ClassView },
+      { path: 'org-select',    component: OrgSelectComponent },
+      { path: 'class-view',   component: ClassView },
       { path: 'subject-view', component: SubjectView },
       { path: 'chapter-view', component: ChapterView },
-      { path: 'result', component: ResultComponent }
+      { path: 'result',       component: ResultComponent },
+      { path: 'my-results',   component: ResultHistoryComponent }
     ]
   },
 
-  // ✅ FALLBACK
+  // Fallback
   { path: '**', redirectTo: 'login' }
-];
+];

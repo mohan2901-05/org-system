@@ -47,6 +47,37 @@
 
   <!-- Testing -->
 
+   <!-- Spring Security -->
+   <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+   </dependency>
+
+   <!-- OAuth2 Resource Server (validates Google JWT) -->
+   <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+   </dependency>
+
+   <!-- JJWT — generates local HS256 JWTs for email/password users -->
+   <dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-api</artifactId>
+    <version>0.12.6</version>
+   </dependency>
+   <dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-impl</artifactId>
+    <version>0.12.6</version>
+    <scope>runtime</scope>
+   </dependency>
+   <dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-jackson</artifactId>
+    <version>0.12.6</version>
+    <scope>runtime</scope>
+   </dependency>
+
  </dependencies>
 
  <build>
@@ -62,6 +93,9 @@
    <plugin>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-maven-plugin</artifactId>
+    <configuration>
+     <jvmArguments>--enable-native-access=ALL-UNNAMED</jvmArguments>
+    </configuration>
    </plugin>
 
   </plugins>

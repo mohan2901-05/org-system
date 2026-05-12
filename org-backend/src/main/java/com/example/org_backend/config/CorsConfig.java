@@ -1,16 +1,6 @@
 package com.example.org_backend.config;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.*;
-
-@Configuration
-public class CorsConfig implements WebMvcConfigurer {
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200")
-                .allowedMethods("*")
-                .allowedHeaders("*");
-    }
-}
+// CORS is now fully handled by SecurityConfig.corsConfigurationSource().
+// Keeping this file empty avoids the duplicate CORS conflict where both
+// WebMvcConfigurer and Spring Security's CorsFilter were applying headers,
+// causing "Access-Control-Allow-Origin" to appear twice in responses.

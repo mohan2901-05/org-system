@@ -1,12 +1,47 @@
-<h2>Select Organization</h2>
+<div class="org-select-wrapper">
 
-<select [(ngModel)]="selectedOrg">
-  <option value="">-- Select Org --</option>
-  <option *ngFor="let org of orgList" [value]="org.pkOrgId || org.pk_org_id">
-    {{ org.orgName || org.org_name }}
-  </option>
-</select>
+  <div class="org-card">
+    <div class="card-header">
+      <span class="icon">🏫</span>
+      <h2>Select Organization</h2>
+      <p>Choose your organization to get started</p>
+    </div>
 
-<br><br>
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="state-box loading">
+      <div class="spinner"></div>
+      <span>Loading organizations...</span>
+    </div>
 
-<button (click)="proceed()">Next</button>
+    <!-- Error -->
+    <div *ngIf="error && !isLoading" class="state-box error">
+      ⚠️ {{ error }}
+    </div>
+
+    <!-- Dropdown -->
+    <div *ngIf="!isLoading" class="form-group">
+      <label for="orgSelect">Organization</label>
+      <select
+        id="orgSelect"
+        [(ngModel)]="selectedOrgId"
+        (ngModelChange)="onOrgChange($event)"
+        class="org-dropdown"
+        [disabled]="orgList.length === 0">
+        <option value="">— Select an organization —</option>
+        <option *ngFor="let org of orgList" [value]="org.pkOrgId">
+          {{ org.orgName }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Proceed button -->
+    <button
+      class="proceed-btn"
+      (click)="proceed()"
+      [disabled]="!selectedOrgId || isLoading">
+      Continue →
+    </button>
+
+  </div>
+
+</div>
